@@ -127,6 +127,7 @@ readarray -t EXC_ < <( awk '{ print $3 }' <<< "$OUT" )
 for (( i = 0 ; i < ${#ID__[@]} ; i++ )); do
   TOT[${ID__[$i]}]=$( bytesToHumanIEC ${TOT_[$i]} )
   EXC[${ID__[$i]}]=$( bytesToHumanIEC ${EXC_[$i]} )
+  EXC_NUM[${ID__[$i]}]=${EXC_[$i]}
 done
 
 ## naming data
@@ -152,7 +153,7 @@ printf "$separatorLine"
 ## matching by IDs in btrfs subvolume list
 for (( i = 0 ; i < ${#ID__[@]} ; i++ )); do
   printf "$formatMask" "${NAME[${ID__[$i]}]}" "${TOT[${ID__[$i]}]}" "${EXC[${ID__[$i]}]}" ${ID__[$i]}
-  EXC_TMP=${EXC_[$i]}
+  EXC_TMP=${EXC_NUM[${ID__[$i]}]:-0}
   EXCL_TOTAL=$(( EXCL_TOTAL + EXC_TMP ))
 done
 
